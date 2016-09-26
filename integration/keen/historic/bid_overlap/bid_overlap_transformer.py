@@ -1,6 +1,5 @@
 __author__ = 'broy'
 
-import collections
 import json
 import logging
 import re
@@ -40,11 +39,4 @@ class BidOverlapTransformer(Transformer):
 
         formatted_hive_row["keen"] = keen_md
 
-        od = collections.OrderedDict(sorted(formatted_hive_row.iteritems(), key=lambda x: x[0].lower()))
-
-        if config.loglevel == logging.DEBUG:
-            logging.debug("\n\n\nOrdered Dict = {}\n\n\n".format(json.dumps(od)))
-
-        return od
-
-
+        return super(BidOverlapTransformer, self).cleanup(formatted_hive_row)

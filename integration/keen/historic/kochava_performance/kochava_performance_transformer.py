@@ -1,9 +1,9 @@
 __author__ = 'broy'
 
-import collections
 import json
 import logging
 import re
+import sys
 
 from integration.keen.historic.common.transformer import Transformer
 from integration.keen.common import config
@@ -41,6 +41,7 @@ class KochavaPerformanceTransformer(Transformer):
                     formatted_hive_row[field] = 0
                 formatted_hive_row[field] = int(float(formatted_hive_row[field]))
 
+        hive_row["dt"] = sys.argv[1]
         dt = str(hive_row["dt"])
         timestamp = "{}-{}-{}T12:00:00.000Z".format(dt[0:4], dt[4:6], dt[6:8])
 
@@ -51,11 +52,4 @@ class KochavaPerformanceTransformer(Transformer):
 
         formatted_hive_row["keen"] = keen_md
 
-        od = collections.OrderedDict(sorted(formatted_hive_row.iteritems(), key=lambda x: x[0].lower()))
-
-        if config.loglevel == logging.DEBUG:
-            logging.debug("\n\n\nOrdered Dict = {}\n\n\n".format(json.dumps(od)))
-
-        return od
-
-
+        return super(KochavaPerformanceTransformer, self).cleanup(formatted_hive_row)

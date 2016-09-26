@@ -21,7 +21,7 @@ function logerror
 # called by data_triggers framework
 export PYTHONPATH="$SCRIPT_HOME"
 dt="`date +%Y%m%d`"
-hr="`date +%Y%m%d%H`"
+hr="`date +%Y%m%d00`"
 log "Called from cron, dt = $dt , hr=$hr"
 current_date_time="`date +%Y%m%d%H%M%S`"
 log "current date time = $current_date_time , dt = $dt, hr = $hr"

@@ -75,6 +75,9 @@ class JobReport:
 
         logging.info("response_dict[:100] = {}".format(json.dumps(response_dict)[:100]))
 
+        if data_sink_logger_tuple[3] in config.debug_app_id_list:
+            logging.info("DEBUG APP_ID, app_id = {}, response_dict = {}".format(data_sink_logger_tuple[3], json.dumps(response_dict)))
+
         util = Util()
 
         if dict(response_dict).has_key(util.get_collection_name(data_sink_logger_tuple)):

@@ -100,7 +100,7 @@ metaclass_info = {"tracker_event"           : {klass : TrackerEventTSTransformer
                   "kochava_performance"     : {klass: KochavaPerformanceTransformer(),
                                                hive_db : "kochava",
                                                hive_table: "campaign2",
-                                               hive_line_parser: (lambda line: _kochava_perf_line_parser(line)),
+                                               hive_line_parser: (lambda line: json.loads(line)),
                                                keen_collection: "kochava_performance4",
                                                keen_collection_name_function: (lambda coll, data_sink_logger_tuple:
                                                        coll),

@@ -37,7 +37,7 @@ class AppMetadata:
 
             app_metadata = [row for row in cursor]
 
-            logging.info("\n\n\napp_metadata = {}".format(app_metadata))
+            logging.debug("\n\n\napp_metadata = {}".format(app_metadata))
 
         except:
             logging.error('exception encountered when selecting app metadata...')

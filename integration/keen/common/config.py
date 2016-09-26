@@ -54,3 +54,5 @@ keen_collection_name_function = "lamda"
 file_list_retriever="file_list_retriever"
 entity_base_dir_template="entity_base_dir_template"
 entity_filepath_template="entity_filepath_template"
+
+debug_app_id_list = []

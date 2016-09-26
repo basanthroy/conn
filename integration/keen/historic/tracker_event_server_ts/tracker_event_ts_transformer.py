@@ -2,7 +2,6 @@ import integration.keen.common.config
 
 __author__ = 'broy'
 
-import collections
 import json
 import logging
 import re
@@ -96,9 +95,4 @@ class TrackerEventTSTransformer(Transformer):
 
         formatted_hive_row = formatted_hive_row_cleaned
 
-        od = collections.OrderedDict(sorted(formatted_hive_row.iteritems(), key=lambda x: x[0].lower()))
-
-        if config.loglevel == logging.DEBUG:
-            logging.debug("\n\n\nOrdered Dict = {}\n\n\n".format(json.dumps(od)))
-
-        return od
+        return super(TrackerEventTSTransformer, self).cleanup(formatted_hive_row)

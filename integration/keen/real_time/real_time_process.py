@@ -149,7 +149,7 @@ class RealTimeProcess(Init):
 
             self._set_file_status(_dt, _hr, _filename, 'in_process', 'date_in_process',
                                   _rowcount=len(_output[0].split('\n')), _update_rowcount=True)
-            self._process_local_file(_dt, _output[0])
+            self._process_local_file(_dt, _hr, _output[0])
             _tock = int(time.time())
             self._set_file_status(_dt, _hr, _filename, 'processed', 'date_processed', _tock - _tick)
 
@@ -164,7 +164,7 @@ class RealTimeProcess(Init):
         finally:
             _output = []
 
-    def _process_local_file(self, _dt, _output):
+    def _process_local_file(self, _dt, _hr, _output):
 
         logging.info("read_local_file invoked...")
 
@@ -195,10 +195,10 @@ class RealTimeProcess(Init):
                         "About to invoke rest endpoint for tracking_id = {}".format(_line_as_dict["tracking_id"]))
 
                     _app_metadata_row = _app_md_data[_line_as_dict["tracking_id"]]
-                    _jobreport.record_data_source_metrics(_dt, _dt, _app_metadata_row[0], _app_metadata_row[1],
+                    _jobreport.record_data_source_metrics(_dt, _hr, _app_metadata_row[0], _app_metadata_row[1],
                                                          config.keen_payload_record_batch_size)
 
-                    _data_sink_logger_tuple = _dt, _dt, _app_metadata_row[0], _app_metadata_row[1], \
+                    _data_sink_logger_tuple = _dt, _hr, _app_metadata_row[0], _app_metadata_row[1], \
                                              _app_metadata_row[3]
 
                     _rest_control = RestController(_app_metadata_row[0], _app_metadata_row[2])
@@ -220,10 +220,10 @@ class RealTimeProcess(Init):
         for k, v in _rows_mapped_by_tracking_id.iteritems():
             if len(v) > 0:
                 _app_metadata_row = _app_md_data[k]
-                _jobreport.record_data_source_metrics(_dt, _dt, _app_metadata_row[0], _app_metadata_row[1],
+                _jobreport.record_data_source_metrics(_dt, _hr, _app_metadata_row[0], _app_metadata_row[1],
                                                      len(v))
 
-                _data_sink_logger_tuple = _dt, _dt, _app_metadata_row[0], _app_metadata_row[1], \
+                _data_sink_logger_tuple = _dt, _hr, _app_metadata_row[0], _app_metadata_row[1], \
                                              _app_metadata_row[3]
 
                 logging.info("About to invoke rest endpoint for tracking_id = {}".format(k))
