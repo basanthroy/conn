@@ -1,6 +1,7 @@
 __author__ = 'broy'
 
-import json
+import random
+import string
 import sys
 import logging
 import re
@@ -90,6 +91,9 @@ class RealTimeProcess(Init):
 
         oldest_file = None
 
+        _generated_unique_name = ''.join(random.SystemRandom()
+                                         .choice(string.ascii_uppercase + string.digits) for _ in range(20))
+
         with MySQLdb.connect(config.report_db_connect_host,
                              config.report_db_connect_user,
                              config.report_db_connect_password,
@@ -99,21 +103,54 @@ class RealTimeProcess(Init):
 
             try:
 
-                select_stmt = """
-                    select dt, hr, filename, status, date_new, dt
+                _update_stmt = """
+                    UPDATE connect_rt_file_process
+                    SET status = '{}'
+                    WHERE status = 'new'
+                    AND entity_name = '{}'
+                    ORDER BY date_new ASC LIMIT 1
+                """.format(_generated_unique_name, sys.argv[4])
+
+                logging.info("_update_stmt={}".format(_update_stmt))
+
+                report_db_connect.execute(_update_stmt)
+
+                _select_stmt = """
+                    select dt, hr, filename, status, date_new, dt, id
                     from connect_rt_file_process
-                    where status = 'new'
+                    where status = '{}'
                     and entity_name = '{}'
-                    order by date_new asc limit 1 for update
-                    """.format(sys.argv[4])
+                    """.format(_generated_unique_name, sys.argv[4])
 
-                logging.info("select_stmt={}".format(select_stmt))
+                logging.info("_select_stmt={}".format(_select_stmt))
 
-                report_db_connect.execute(select_stmt)
+                report_db_connect.execute(_select_stmt)
 
                 new_files = [row for row in report_db_connect]
                 if len(new_files) > 0:
                     oldest_file = new_files[0]
+
+                    _reset_stmt = """
+                                    UPDATE connect_rt_file_process
+                                    SET status = 'in_process'
+                                    WHERE id = {}
+                                """.format(oldest_file[6])
+                    logging.info("_reset_stmt={}".format(_reset_stmt))
+                    report_db_connect.execute(_reset_stmt)
+
+                # _dt = oldest_file[0]
+                # _hr = oldest_file[1]
+                # _filename = oldest_file[2]
+                # self._set_file_status(_dt, _hr, _filename, 'in_process', 'date_in_process')
+
+                # update_stmt = """
+                #     update connect_rt_file_process
+                #     set status = 'in_process'
+                #     where dt = {} AND
+                #     hr = {} AND
+                #     filename = {}
+                # """.format(_dt, _hr, _filename)
+                # report_db_connect.execute(update_stmt)
 
                 logging.info("__get_list_of_files_to_process, new_files={}".format(new_files))
 
@@ -266,7 +303,8 @@ class RealTimeProcess(Init):
                     where dt = {}
                     and hr = {}
                     and filename = '{}'
-                    """.format(_status, _date_col_name, _processing_time, _update_rowcount_sql, _dt, _hr, _filename)
+                    and entity_name  = '{}'
+                    """.format(_status, _date_col_name, _processing_time, _update_rowcount_sql, _dt, _hr, _filename, sys.argv[4])
 
                 logging.info("__update_stmt={}".format(__update_stmt))
 
@@ -313,3 +351,4 @@ if __name__ == "__main__":
     # files = file_list_retriever_class.get_file_names_in_dthr(20160910, 2016091010)
 
     # real_time_processor.tester(_process_dt, _process_hr)
+

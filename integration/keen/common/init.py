@@ -13,7 +13,9 @@ class Init(object):
 
     def __init__(self):
 
-        logging.basicConfig(filename=config.ROOT_DIR + '/keen.log', level=config.loglevel)
+        logging.basicConfig(filename=config.ROOT_DIR + '/keen.log',
+                            level=config.loglevel,
+                            format='%(asctime)s %(name)s (%(levelname)s): %(message)s')
         logging.info('\n\n\n Beginning keen integration pipeline main method ')
 
         logging.info('Starting connect keen pipeline, time={}, formatted time = {}'.format(str(processing_start_time), (

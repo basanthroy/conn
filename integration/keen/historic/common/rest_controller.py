@@ -80,6 +80,10 @@ class RestController:
             # jobreport.record_data_sink_metrics(self.__start_date, end_date, self.__keen_project_id, app_id, rowcount)
             # jobreport.record_data_sink_metrics(0, 0, self.__keen_project_id, 0, 0)
 
+            if data_sink_logger_tuple[3] in config.debug_app_id_list:
+                logging.info("DEBUG APP_ID, app_id = {}, url = {}, headers={}, json_payload={}"
+                             .format(data_sink_logger_tuple[3], url, headers, json_payload))
+
             r = requests.post(url,
                               json_payload,
                               headers=headers)

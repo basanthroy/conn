@@ -38,7 +38,7 @@ else
   log "current date time = $current_date_time , dt = $dt, hr = $hr"
   process_name=$dt'_'$hr'_'$current_date_time
   log "process_name = $process_name"
-  $PYTHON $SCRIPT_HOME/$SCRIPT $dt $hr $process_name $ENTITY_NAME
+  $PYTHON $SCRIPT_HOME/$SCRIPT $dt $hr $process_name $ENTITY_NAME 2> >(grep -v 'Warning: Duplicate entry'| grep -v 'report_db_connect.execute(insert_filename)' >&2)
 fi
 
 

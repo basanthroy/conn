@@ -15,6 +15,10 @@ class TrackerEventTSTransformer(Transformer):
 
     def convert_hive_row_to_keen_format(self, hive_row):
 
+        if hive_row["tracking_id"] in config.debug_app_id_list:
+            logging.info("DEBUG APP_ID, app_id = {}, hive_row={}"
+                         .format(hive_row["tracking_id"], hive_row))
+
         # logging.info("TrackerEventTSTransformer, hive_row = {}".format(hive_row))
         if config.loglevel == logging.DEBUG:
             logging.debug("\n\n\nhive_row = {}\n\n\n".format(json.dumps(hive_row)))
@@ -81,6 +85,9 @@ class TrackerEventTSTransformer(Transformer):
             formatted_hive_row_cleaned["session_length"] = int(formatted_hive_row_cleaned["session_length"])
         if formatted_hive_row_cleaned.has_key("subsession_length"):
             formatted_hive_row_cleaned["subsession_length"] = int(formatted_hive_row_cleaned["subsession_length"])
+
+        if formatted_hive_row_cleaned.has_key("installed_app_info"):
+            del formatted_hive_row_cleaned["installed_app_info"]
 
         timestamp = strftime("%Y-%m-%dT%H:%M:%S.{}Z".format(str(formatted_hive_row["timestamp"])[-3:]),
                              gmtime(int(str(formatted_hive_row["timestamp"])[:-3])))
