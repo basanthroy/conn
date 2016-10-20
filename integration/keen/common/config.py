@@ -10,7 +10,7 @@ keen_api_template = """https://api.keen.io/3.0/projects/{}/events"""
 # jobserver2/connu
 ROOT_DIR='/opt/dwradiumone/r1-dw-connect-app/dev/tracker_event_stj/log/rt'
 
-report_db_connect_host = 'que2.dw.sc.gwallet.com'
+report_db_connect_host = 'que1.dw.sc.gwallet.com'
 report_db_connect_user = 'arteu'
 report_db_connect_password = 'arteu1arteu'
 report_db_connect_db = 'test_connect'
