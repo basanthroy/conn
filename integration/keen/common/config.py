@@ -21,8 +21,8 @@ app_db_connect_password = 'WBmPY4rzNpR5'
 app_db_connect_db = 'connect_production_v3'
 
 hive_server_host = 'jobserver.dw.sc.gwallet.com'
-hive_server_user = 'bruderman'
-hive_server_password = 'brad'
+hive_server_user = 'dtopsu'
+hive_server_password = 'dtopsu'
 hive_server_port = 10000
 hive_server_auth = 'PLAIN'
 
