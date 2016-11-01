@@ -1,11 +1,11 @@
 #!/bin/bash
 
 
-APP_HOME=/opt/dwradiumone/r1-dw-connect-app/dev/bid_overlap_cities
+APP_HOME=/opt/dwradiumone/r1-dw-connect-app/dev/kochava_performance
 PYTHON=/opt/python2.7/bin/python
-SCRIPT_HOME=$APP_HOME/scripts
+SCRIPT_HOME=$APP_HOME/scripts/src/main/python
 SCRIPT=integration/keen/real_time/real_time_process.py
-ENTITY_NAME=bid_overlap_cities
+ENTITY_NAME=kochava_performance
 
 function log
 {
@@ -21,7 +21,7 @@ function logerror
 # called by data_triggers framework
 export PYTHONPATH="$SCRIPT_HOME"
 dt="`date +%Y%m%d`"
-hr="`date +%Y%m%d%H`"
+hr="`date +%Y%m%d00`"
 log "Called from cron, dt = $dt , hr=$hr"
 current_date_time="`date +%Y%m%d%H%M%S`"
 log "current date time = $current_date_time , dt = $dt, hr = $hr"
