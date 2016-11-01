@@ -5,7 +5,7 @@
 
 APP_HOME=/opt/dwradiumone/r1-dw-connect-app/prod/tracker_event_stj
 PYTHON=/opt/python2.7/bin/python
-SCRIPT_HOME=$APP_HOME/scripts
+SCRIPT_HOME=$APP_HOME/scripts/src/main/python
 SCRIPT=integration/keen/real_time/real_time_process.py
 ENTITY_NAME=tracker_event
 
@@ -27,8 +27,8 @@ log "current date time = $current_date_time , dt = $dt, hr = $hr"
 
 if [[ -n "$dt" ]]; then
 
-    COUNTER=0
-    until [  $COUNTER -gt 23 ]; do
+    COUNTER=6
+    until [  $COUNTER -gt 11 ]; do
         #echo COUNTER $COUNTER
         if [ $COUNTER -lt 10 ]; then
           hr=$dt"0$COUNTER"
