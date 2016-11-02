@@ -39,7 +39,7 @@ if [[ -n "$dt" ]]; then
         #echo hr $hr
         process_name=$dt'_'$hr'_'$current_date_time
         log "process_name = $process_name"
-        cmd="nohup $PYTHON $SCRIPT_HOME/$SCRIPT $dt $hr $process_name $ENTITY_NAME 2> >(grep -v 'Warning: Duplicate entry'| grep -v 'report_db_connect.execute(insert_filename)' >&2) &"
+        cmd="nohup $PYTHON $SCRIPT_HOME/$SCRIPT $dt $hr $process_name $ENTITY_NAME 2> >(grep -v 'Warning: Duplicate entry'| grep -v 'report_db_connect.execute(insert_filename)'| grep -v 'INFO lzo.GPLNativeCodeLoader: Loaded native gpl library'| grep -v 'INFO lzo.LzoCodec: Successfully loaded & initialized native-lzo library' >&2) &"
         log "cmd="$cmd
         eval $cmd
     done
