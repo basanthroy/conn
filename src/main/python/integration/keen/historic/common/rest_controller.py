@@ -100,8 +100,11 @@ class RestController:
         # print "KEEN ENDPOINT INVOKED"
         # logging.info("KEEN ENDPOINT INVOKED")
 
-        logging.info("keen endpoint invocation completed. Response status = {}".format(str(r.status_code)))
-        # logging.info("keen endpoint invocation completed. Response body = {}".format(str(content[:100])))
+        if 'r' in locals():
+            logging.info("keen endpoint invocation completed. Response status = {}".format(str(r.status_code)))
+            # logging.debug("keen endpoint invocation completed. Response body = {}".format(str(r.content[:100])))
+        else:
+            logging.info("keen endpoint invocation completed. Response status undefined")
 
         # TODO : If there are any error responses, then need to do something for thows rows
         # TODO : This is post MVP
