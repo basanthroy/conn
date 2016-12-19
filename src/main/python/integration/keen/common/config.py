@@ -8,19 +8,24 @@ keen_api_template = """https://api.keen.io/3.0/projects/{}/events"""
 # personal mac
 # BASE_DIR='/Users/broy/keen'
 # jobserver2/connu
-BASE_DIR='/opt/dwradiumone/r1-dw-connect-app/dev/tracker_event_stj'
+BASE_DIR='/opt/dwradiumone/r1-dw-mobile-lowlatency-app/test/web_analytics'
 ROOT_DIR=BASE_DIR + '/log/rt'
 SCRIPT_DIR=BASE_DIR + '/scripts/src/main/python/integration/keen'
 
 report_db_connect_host = 'que1.dw.sc.gwallet.com'
-report_db_connect_user = 'arteu'
-report_db_connect_password = 'arteu1arteu'
+report_db_connect_user = 'connu'
+report_db_connect_password = 'D3BFgfhEBSIo'
 report_db_connect_db = 'test_connect'
 
-app_db_connect_host = 'ec2-54-175-102-162.compute-1.amazonaws.com'
-app_db_connect_user = 'readonly'
-app_db_connect_password = 'WBmPY4rzNpR5'
-app_db_connect_db = 'connect_production_v3'
+app_db_connect_host = 'que1.dw.sc.gwallet.com'
+app_db_connect_user = 'connu'
+app_db_connect_password = 'D3BFgfhEBSIo'
+app_db_connect_db = 'test_connect'
+
+#app_db_connect_host = 'connect.dmp.dw.sc.gwallet.com'
+#app_db_connect_user = 'broy'
+#app_db_connect_password = 'uaMo7eiGhee8ria'
+#app_db_connect_db = 'connect_production'
 
 hive_server_host = 'jobserver.dw.sc.gwallet.com'
 hive_server_user = 'dtopsu'
@@ -28,7 +33,7 @@ hive_server_password = 'dtopsu'
 hive_server_port = 10000
 hive_server_auth = 'PLAIN'
 
-loglevel = logging.INFO
+loglevel = logging.DEBUG
 
 keen_payload_record_batch_size=2000
 hive_queries_throttle_batch_size=20
@@ -43,6 +48,42 @@ keen_metadata = """
           },
           "output" : "ip_geo_info"
          }
+     ]
+    }
+"""
+
+keen_metadata_wa = """
+    {"timestamp": "TIMESTAMP_PLACEHOLDER",
+     "addons" : [
+          {
+            "name" : "keen:url_parser",
+            "input" : {
+              "url" : "url"
+            },
+            "output" : "parsed_page_url"
+          },
+          {
+            "name" : "keen:ip_to_geo",
+            "input" : {
+              "ip" : "ip"
+            },
+            "output" : "parsed_ip_geo"
+          },
+          {
+            "name" : "keen:referrer_parser",
+            "input" : {
+              "referrer_url" : "referrer",
+              "page_url" : "url"
+            },
+            "output" : "parsed_referrer_url"
+          },
+          {
+            "name" : "keen:ua_parser",
+            "input" : {
+              "ua_string" : "user_agent"
+            },
+            "output" : "parsed_user_agent"
+          }
      ]
     }
 """

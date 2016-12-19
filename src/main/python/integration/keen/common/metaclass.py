@@ -11,6 +11,7 @@ from integration.keen.historic.tracker_event_server_ts.tracker_event_ts_transfor
 from integration.keen.historic.kochava_performance.kochava_performance_transformer import KochavaPerformanceTransformer
 from integration.keen.historic.tracker_event_server_ts.file_list_retriever_tracker_ev_json import FileListRetrieverTrackerEventJson
 from integration.keen.historic.bid_overlap.file_list_retriever_bid_overlap import FileListRetrieverBidOverlap
+from integration.keen.historic.web_analytics.web_analytics_transformer import WebAnalyticsTransformer
 
 _bid_overlap_schema = ["tracking_id", "ad_exchange", "label", "rank", "overlap_devices", "bid_requests", "dt"]
 _kochava_perf_schema = ["tracking_id", "kochava_app_id", "campaign_id", "campaign_name", "clicks", "click_duplicates", "installs", \
@@ -31,6 +32,11 @@ def _generic_line_parser(line, _schema):
         _line_as_dict[_col_name] = _col_value
     logging.debug("_generic_line_parser, line = {}, line_as_dict={}".format(line, _line_as_dict))
     return _line_as_dict
+
+def _wa_line_parser(line):
+    m = json.loads(line)
+    m['tracking_id'] = m['application_id']
+    return m
 
 metaclass_info = {"tracker_event"           : {klass : TrackerEventTSTransformer(),
                                                hive_db : "radiumone",
@@ -57,7 +63,20 @@ metaclass_info = {"tracker_event"           : {klass : TrackerEventTSTransformer
                                                entity_base_dir_template : "hdfs://namenode1.dw.sc.gwallet.com:8020/data/radiumone/tracker-event/dt={}/hr={}/",
                                                entity_filepath_template : "hdfs://namenode1.dw.sc.gwallet.com:8020/data/radiumone/tracker-event/dt={}/hr={}/{}",
                                                file_list_retriever : FileListRetrieverTrackerEventJson
-                                               },
+                                              },
+                  "web_analytics":            {klass: WebAnalyticsTransformer(),
+                                               hive_db: "radiumone_json",
+                                               hive_table: "web_analytics_event",
+                                               hive_line_parser: (lambda line: _wa_line_parser(line)),
+                                               keen_collection: "web_analytics",
+                                               keen_collection_name_function: (lambda coll, data_sink_logger_tuple:
+                                                                               "zz_poc_6_" + coll + "_" + str(data_sink_logger_tuple[4])
+                                                                             # "zz_basanth_test_" + str(data_sink_logger_tuple[4])
+                                                                             ),
+                                               entity_base_dir_template: "hdfs://namenode1.dw.sc.gwallet.com:8020/data/json/radiumone/web-analytics-event/dt={}/hr={}/",
+                                               entity_filepath_template: "hdfs://namenode1.dw.sc.gwallet.com:8020/data/json/radiumone/web-analytics-event/dt={}/hr={}/{}",
+                                               file_list_retriever: FileListRetrieverTrackerEventJson
+                                              },
                   "tracker_event_kochava"   : {klass: TrackerEventTSTransformer(),
                                                hive_db: "radiumone",
                                                hive_table: "tracker_event_kochava_json",
