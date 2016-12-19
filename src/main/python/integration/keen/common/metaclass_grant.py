@@ -32,7 +32,8 @@ def _generic_line_parser(line, _schema):
     logging.debug("_generic_line_parser, line = {}, line_as_dict={}".format(line, _line_as_dict))
     return _line_as_dict
 
-metaclass_info = {"tracker_event"           : {klass : TrackerEventTSTransformer(),
+metaclass_info = {
+                  "tracker_event"           : {klass : TrackerEventTSTransformer(),
                                                hive_db : "radiumone",
                                                hive_table : "tracker_event_server_ts_json",
                                                hive_line_parser: (lambda line : json.loads(line)),
@@ -41,6 +42,14 @@ metaclass_info = {"tracker_event"           : {klass : TrackerEventTSTransformer
                                                         coll + "_" + str(data_sink_logger_tuple[4])
                                                         # "zz_basanth_test_" + str(data_sink_logger_tuple[4])
                                                                                 ),
+                                               entity_base_dir_template : "hdfs://namenode1.dw.sc.gwallet.com:8020/data/radiumone/tracker-event-server-ts-json/dt={}/hr={}/",
+                                               entity_filepath_template : "hdfs://namenode1.dw.sc.gwallet.com:8020/data/radiumone/tracker-event-server-ts-json/dt={}/hr={}/{}",
+                                               file_list_retriever : FileListRetrieverTrackerEventJson
+                                               },
+                  "kochava_tracker_event"    : {klass : TrackerEventTSTransformer(),
+                                               hive_db : "radiumone",
+                                               hive_table : "tracker_event_server_ts_json",
+                                               hive_line_parser: (lambda line : json.loads(line)),
                                                entity_base_dir_template : "hdfs://namenode1.dw.sc.gwallet.com:8020/data/radiumone/tracker-event-server-ts-json/dt={}/hr={}/",
                                                entity_filepath_template : "hdfs://namenode1.dw.sc.gwallet.com:8020/data/radiumone/tracker-event-server-ts-json/dt={}/hr={}/{}",
                                                file_list_retriever : FileListRetrieverTrackerEventJson

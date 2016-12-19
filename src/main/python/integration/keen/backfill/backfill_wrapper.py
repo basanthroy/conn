@@ -68,6 +68,7 @@ class BackfillWrapper(Init):
         logging.info("In _invoke_runner method")
 
         _status, _hours_processed, _min_dt = self._isEligibleToRun()
+        #_status, _hours_processed, _min_dt = True, 24, 20160403
 
         logging.info("_status={}, _hours_processed={}, _min_dt = {}"
                      .format(_status, _hours_processed, _min_dt))
@@ -82,6 +83,8 @@ class BackfillWrapper(Init):
                     logging.info("Beginning reached. {}".format(_next_date))
                     return
                 os.system(config.SCRIPT_DIR + "/bash/historic_tracker_event_00_11.sh {}"
+                          .format(_next_date))
+                os.system(config.SCRIPT_DIR + "/bash/historic_tracker_event_12_23.sh {}"
                           .format(_next_date))
 
     @staticmethod
