@@ -7,7 +7,7 @@ APP_HOME=/opt/dwradiumone/r1-dw-connect-app/prod/tracker_event_stj
 PYTHON=/opt/python2.7/bin/python
 SCRIPT_HOME=$APP_HOME/scripts/src/main/python
 SCRIPT=integration/keen/real_time/real_time_process.py
-ENTITY_NAME=tracker_event
+ENTITY_NAME=tracker_event_backfill
 
 function log
 {
