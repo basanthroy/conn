@@ -4,6 +4,7 @@ import random
 import string
 import sys
 import logging
+import os
 import re
 import time
 import traceback
@@ -26,6 +27,16 @@ class RealTimeProcess(Init):
 
         files = _file_list_retriever_class.get_file_names_in_dthr(_dt, _hr)
         self.__insert_file_names_to_state(files, _dt, _hr)
+
+        _num_existing_processes = int(os.popen("ps -eaf | grep 'keen/real_time/real_time_process.py' | wc -l").read())
+
+        if (_num_existing_processes > config.max_concurrent_python_processes_on_server):
+            logging.info("Exiting this run since more than {} (exact count = {}) real_time processes are already running."
+                         .format(config.max_concurrent_python_processes_on_server, _num_existing_processes))
+            return
+
+        logging.info("Continuing with this run since less than 5 (exact count = {}) real_time processes are already running."
+            .format(_num_existing_processes))
 
         _unprocessed_file = self._get_oldest_file_to_process()
 

@@ -11,7 +11,7 @@ processing_start_time = int(time.time())
 
 class Init(object):
 
-    def __init__(self):
+    def __init__(self, _check_processname_uniqueness=True):
 
         logging.basicConfig(filename=config.ROOT_DIR + '/keen.log',
                             level=config.loglevel,
@@ -32,9 +32,10 @@ class Init(object):
         metrics.addHandler(handler)
 
         util = Util()
-        if util.is_process_name_unique(sys.argv[3]) is not True:
-            self.print_usage()
-            raise ValueError("Expected Unique process name. Received process name = {}".format(sys.argv[3]))
+        if _check_processname_uniqueness:
+            if util.is_process_name_unique(sys.argv[3]) is not True:
+                self.print_usage()
+                raise ValueError("Expected Unique process name. Received process name = {}".format(sys.argv[3]))
 
     def print_usage(self):
         print """Usage =

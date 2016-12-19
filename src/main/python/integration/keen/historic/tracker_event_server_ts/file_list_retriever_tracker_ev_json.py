@@ -18,6 +18,7 @@ class FileListRetrieverTrackerEventJson(FileListRetriever):
         logging.info("hdfs dfs -ls ={}".format(output))
         files = [dir[dir.find(dir_name):] for dir in output[0].split("\n")[1:-1]]
         files = [file.replace(dir_name, "") for file in files]
+        files = filter(lambda file: not file.startswith('.hive-staging'), files)
         logging.info("files={}".format(files))
         return files
 
