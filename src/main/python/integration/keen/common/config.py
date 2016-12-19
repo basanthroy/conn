@@ -6,9 +6,11 @@ keen_api_event_header_template={"Authorization": "KEEN_CUSTOM_KEY", "Content-Typ
 keen_api_template = """https://api.keen.io/3.0/projects/{}/events"""
 
 # personal mac
-# ROOT_DIR='/Users/broy/keen/log/rt'
+# BASE_DIR='/Users/broy/keen'
 # jobserver2/connu
-ROOT_DIR='/opt/dwradiumone/r1-dw-connect-app/dev/tracker_event_stj/log/rt'
+BASE_DIR='/opt/dwradiumone/r1-dw-connect-app/dev/tracker_event_stj'
+ROOT_DIR=BASE_DIR + '/log/rt'
+SCRIPT_DIR=BASE_DIR + '/scripts/src/main/python/integration/keen'
 
 report_db_connect_host = 'que1.dw.sc.gwallet.com'
 report_db_connect_user = 'arteu'
@@ -54,5 +56,7 @@ keen_collection_name_function = "lamda"
 file_list_retriever="file_list_retriever"
 entity_base_dir_template="entity_base_dir_template"
 entity_filepath_template="entity_filepath_template"
+
+max_concurrent_python_processes_on_server=8
 
 debug_app_id_list = []
