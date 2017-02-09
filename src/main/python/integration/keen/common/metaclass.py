@@ -70,7 +70,7 @@ metaclass_info = {"tracker_event"           : {klass : TrackerEventTSTransformer
                                                hive_line_parser: (lambda line: _wa_line_parser(line)),
                                                keen_collection: "web_analytics",
                                                keen_collection_name_function: (lambda coll, data_sink_logger_tuple:
-                                                                               "zz_poc_6_" + coll + "_" + str(data_sink_logger_tuple[4])
+                                                                               coll + "_" + str(data_sink_logger_tuple[4])
                                                                              # "zz_basanth_test_" + str(data_sink_logger_tuple[4])
                                                                              ),
                                                entity_base_dir_template: "hdfs://namenode1.dw.sc.gwallet.com:8020/data/json/radiumone/web-analytics-event/dt={}/hr={}/",

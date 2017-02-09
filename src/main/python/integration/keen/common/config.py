@@ -33,7 +33,7 @@ hive_server_password = 'dtopsu'
 hive_server_port = 10000
 hive_server_auth = 'PLAIN'
 
-loglevel = logging.DEBUG
+loglevel = logging.INFO
 
 keen_payload_record_batch_size=2000
 hive_queries_throttle_batch_size=20
