@@ -61,8 +61,10 @@ class RestController:
                 raise
 
         if config.loglevel == logging.DEBUG:
+            rows_for_logging=[str(row)[:3] for row in transformed_rows]
             logging.debug("In convert_hive_row_to_keen_payload, transformed_rows={}".format(
-                rows_for_logging=[str(row)[:300] for row in transformed_rows]))
+                rows_for_logging))
+                #rows_for_logging=[str(row)[:3] for row in transformed_rows]))
 
         return transformed_rows
 

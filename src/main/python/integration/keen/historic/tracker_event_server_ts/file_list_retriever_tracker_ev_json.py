@@ -12,6 +12,9 @@ class FileListRetrieverTrackerEventJson(FileListRetriever):
         logging.info("Inside get_partitions, dt={}, hr={}".format(dt, hr))
 
         dir_name = self._construct_full_path_name(dt, hr)
+
+        logging.info("Inside get_partitions, dir_name={}".format(dir_name))
+
         proc = Popen(['hdfs', 'dfs', '-ls', dir_name], stdout=PIPE)
         output = proc.communicate()
 
